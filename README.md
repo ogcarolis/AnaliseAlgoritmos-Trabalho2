@@ -7,8 +7,16 @@
 Este projeto implementa soluções em C para três problemas clássicos de grafos, inspirados em questões do LeetCode:
 
 - **Network Delay Time** ([LeetCode 743](https://leetcode.com/problems/network-delay-time/description/))
+    - **Algoritmo de Dijkstra**  
+        Utilizado para encontrar o menor tempo necessário para que todos os nós de um grafo recebam um sinal a partir de um nó de origem. O algoritmo calcula o caminho mínimo de um vértice para todos os outros em um grafo com pesos positivos.
+    
 - **Min Cost to Connect All Points** ([LeetCode 1584](https://leetcode.com/problems/min-cost-to-connect-all-points/description/))
+    - **Algoritmo de Kruskal (Árvore Geradora Mínima)**  
+        Utilizado para encontrar o custo mínimo para conectar todos os pontos em um grafo completo, onde o peso das arestas é a distância de Manhattan entre os pontos. O algoritmo utiliza estrutura de união e busca (DSU/Union-Find) para evitar ciclos.
+
 - **Course Schedule** ([LeetCode 207](https://leetcode.com/problems/course-schedule/description/))
+    - **Algoritmo de Kahn (Ordenação Topológica em BFS)**  
+        Utilizado para verificar se é possível concluir todos os cursos dados os pré-requisitos, ou seja, se o grafo direcionado é acíclico (DAG). O algoritmo faz uma ordenação topológica utilizando uma fila e o grau de entrada dos vértices.
 
 O código principal está em `main.c` e pode ser compilado e testado facilmente via Makefile.
 
@@ -60,19 +68,3 @@ Para remover o executável:
 ```
 make clean
 ```
-
-# Algoritmos Utilizados
-
-Neste projeto, foram utilizados os seguintes algoritmos para resolver cada problema:
-
-- **Network Delay Time (LeetCode 743):**
-  - **Algoritmo de Dijkstra**  
-    Utilizado para encontrar o menor tempo necessário para que todos os nós de um grafo recebam um sinal a partir de um nó de origem. O algoritmo calcula o caminho mínimo de um vértice para todos os outros em um grafo com pesos positivos.
-
-- **Min Cost to Connect All Points (LeetCode 1584):**
-  - **Algoritmo de Kruskal (Árvore Geradora Mínima)**  
-    Utilizado para encontrar o custo mínimo para conectar todos os pontos em um grafo completo, onde o peso das arestas é a distância de Manhattan entre os pontos. O algoritmo utiliza estrutura de união e busca (DSU/Union-Find) para evitar ciclos.
-
-- **Course Schedule (LeetCode 207):**
-  - **Algoritmo de Kahn (Ordenação Topológica em BFS)**  
-    Utilizado para verificar se é possível concluir todos os cursos dados os pré-requisitos, ou seja, se o grafo direcionado é acíclico (DAG). O algoritmo faz uma ordenação topológica utilizando uma fila e o grau de entrada dos vértices.

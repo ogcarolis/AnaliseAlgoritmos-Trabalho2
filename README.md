@@ -1,6 +1,6 @@
-# AnaliseAlgoritmos-Trabalho2
+# Trabalho 2 de Análise de Algoritmos: Pesquisa e Resolução de Problemas sobre Grafos
 
-Trabalho 2 de Análise de Algoritmos: Pesquisa e Resolução de Problemas sobre Grafos
+**Objetivo:** Explorar problemas clássicos de grafos relacionados a três tópicos fundamentais: Caminho Mínimo, Árvore Geradora Mínima e Ordenação Topológica, aplicando conhecimentos teóricos na resolução prática de problemas encontrados em sites de programação competitiva.
 
 ## Descrição
 

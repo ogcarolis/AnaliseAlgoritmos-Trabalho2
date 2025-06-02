@@ -18,7 +18,7 @@
 
 // Função para encontrar o vértice com o menor valor de distância, dentre o conjunto de
 // vértices ainda não incluídos na árvore de caminhos mínimos
-int minDistance_nwd(int dist[], bool sptSet[], int n) {
+int caminhoMinimo(int dist[], bool sptSet[], int n) {
     int min = INT_MAX, min_index = -1;
     for (int v = 1; v <= n; v++) { // Nós são de 1 a n
         if (!sptSet[v] && dist[v] <= min) {
@@ -58,7 +58,7 @@ int networkDelayTime(int times[][3], int timesSize, int n, int k) {
     // Encontra o caminho mínimo para todos os vértices
     for (int count = 0; count < n - 1; count++) {
         // Escolhe o vértice com menor distância dentre os vértices ainda não processados.
-        int u = minDistance_nwd(dist, sptSet, n);
+        int u = caminhoMinimo(dist, sptSet, n);
 
         // Se nenhum vértice pôde ser escolhido (ex: parte desconectada do grafo a partir de k)
         if (u == -1) break;
@@ -103,18 +103,18 @@ typedef struct {
 } DSU_mcap;
 
 // Operação find do DSU
-int find_set_mcap(DSU_mcap *dsu, int i) {
+int findSetMcap(DSU_mcap *dsu, int i) {
     if (dsu->parent[i] == i)
         return i;
     // Compressão de caminho
-    dsu->parent[i] = find_set_mcap(dsu, dsu->parent[i]);
+    dsu->parent[i] = findSetMcap(dsu, dsu->parent[i]);
     return dsu->parent[i];
 }
 
 // Operação union do DSU (por rank)
-void unite_sets_mcap(DSU_mcap *dsu, int a, int b) {
-    a = find_set_mcap(dsu, a);
-    b = find_set_mcap(dsu, b);
+void uniteSetsMcap(DSU_mcap *dsu, int a, int b) {
+    a = findSetMcap(dsu, a);
+    b = findSetMcap(dsu, b);
     if (a != b) {
         if (dsu->rank[a] < dsu->rank[b]) {
             int temp = a; a = b; b = temp; // Troca a e b
@@ -127,14 +127,14 @@ void unite_sets_mcap(DSU_mcap *dsu, int a, int b) {
 }
 
 // Comparador para qsort
-int compareEdges_mcap(const void *a, const void *b) {
+int compareEdgesMcap(const void *a, const void *b) {
     Edge_mcap *edgeA = (Edge_mcap *)a;
     Edge_mcap *edgeB = (Edge_mcap *)b;
     return edgeA->weight - edgeB->weight;
 }
 
 // Distância de Manhattan
-int manhattanDistance(int p1[], int p2[]) {
+int distanciaManhattan(int p1[], int p2[]) {
     return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1]);
 }
 
@@ -151,13 +151,13 @@ int minCostConnectPoints(int points[][2], int pointsSize) {
         for (int j = i + 1; j < pointsSize; j++) {
             edges[edge_count].u = i;
             edges[edge_count].v = j;
-            edges[edge_count].weight = manhattanDistance(points[i], points[j]);
+            edges[edge_count].weight = distanciaManhattan(points[i], points[j]);
             edge_count++;
         }
     }
 
     // Ordena as arestas pelo peso
-    qsort(edges, edge_count, sizeof(Edge_mcap), compareEdges_mcap);
+    qsort(edges, edge_count, sizeof(Edge_mcap), compareEdgesMcap);
 
     DSU_mcap dsu;
     for (int i = 0; i < pointsSize; i++) {
@@ -168,9 +168,9 @@ int minCostConnectPoints(int points[][2], int pointsSize) {
     int mst_cost = 0;
     int edges_in_mst = 0;
     for (int i = 0; i < edge_count; i++) {
-        if (find_set_mcap(&dsu, edges[i].u) != find_set_mcap(&dsu, edges[i].v)) {
+        if (findSetMcap(&dsu, edges[i].u) != findSetMcap(&dsu, edges[i].v)) {
             mst_cost += edges[i].weight;
-            unite_sets_mcap(&dsu, edges[i].u, edges[i].v);
+            uniteSetsMcap(&dsu, edges[i].u, edges[i].v);
             edges_in_mst++;
             if (edges_in_mst == pointsSize - 1) {
                 break; // MST está completa
@@ -184,42 +184,42 @@ int minCostConnectPoints(int points[][2], int pointsSize) {
 // --- Problema 3: Course Schedule (LeetCode 207) ---
 
 // Nó da lista de adjacência para Course Schedule
-typedef struct CS_Node {
+typedef struct CS_No {
     int dest;
-    struct CS_Node* next;
-} CS_Node;
+    struct CS_No* next;
+} CS_No;
 
 // Lista de adjacência
-CS_Node* adj_cs[MAX_COURSES_CS];
+CS_No* adj_cs[MAX_COURSES_CS];
 int in_degree_cs[MAX_COURSES_CS];
 
 // Função para adicionar uma aresta à lista de adjacência
-void addEdge_cs(int src, int dest) {
-    CS_Node* newNode = (CS_Node*)malloc(sizeof(CS_Node));
-    if (!newNode) {
-        perror("Falha ao alocar memória para CS_Node");
+void addEdgeCS(int src, int dest) {
+    CS_No* novoNo = (CS_No*)malloc(sizeof(CS_No));
+    if (!novoNo) {
+        perror("Falha ao alocar memória para CS_No");
         exit(EXIT_FAILURE);
     }
-    newNode->dest = dest;
-    newNode->next = adj_cs[src];
-    adj_cs[src] = newNode;
+    novoNo->dest = dest;
+    novoNo->next = adj_cs[src];
+    adj_cs[src] = novoNo;
     in_degree_cs[dest]++;
 }
 
 // Função para liberar a lista de adjacência
-void freeAdjList_cs(int numCourses) {
+void freeAdjListCS(int numCourses) {
     for (int i = 0; i < numCourses; i++) {
-        CS_Node* current = adj_cs[i];
-        while (current != NULL) {
-            CS_Node* temp = current;
-            current = current->next;
+        CS_No* atual = adj_cs[i];
+        while (atual != NULL) {
+            CS_No* temp = atual;
+            atual = atual->next;
             free(temp);
         }
         adj_cs[i] = NULL; // Reseta o ponteiro após liberar
     }
 }
 
-bool canFinish(int numCourses, int prerequisites[][2], int prerequisitesSize) {
+bool canFinish(int numCourses, int prerequisitos[][2], int prerequisitosSize) {
     // Inicializa a lista de adjacência e os graus de entrada
     for (int i = 0; i < numCourses; i++) {
         adj_cs[i] = NULL;
@@ -227,10 +227,10 @@ bool canFinish(int numCourses, int prerequisites[][2], int prerequisitesSize) {
     }
 
     // Constrói o grafo
-    for (int i = 0; i < prerequisitesSize; i++) {
-        // prerequisite[1] é pré-requisito de prerequisite[0]
-        // Aresta de prerequisite[1] -> prerequisite[0]
-        addEdge_cs(prerequisites[i][1], prerequisites[i][0]);
+    for (int i = 0; i < prerequisitosSize; i++) {
+        // prerequisito[1] é pré-requisito de prerequisito[0]
+        // Aresta de prerequisito[1] -> prerequisito[0]
+        addEdgeCS(prerequisitos[i][1], prerequisitos[i][0]);
     }
 
     // Algoritmo de Kahn para ordenação topológica
@@ -249,7 +249,7 @@ bool canFinish(int numCourses, int prerequisites[][2], int prerequisitesSize) {
         int u = queue[front++];
         visited_count++;
 
-        CS_Node* temp = adj_cs[u];
+        CS_No* temp = adj_cs[u];
         while (temp != NULL) {
             int v = temp->dest;
             in_degree_cs[v]--;
@@ -260,13 +260,11 @@ bool canFinish(int numCourses, int prerequisites[][2], int prerequisitesSize) {
         }
     }
 
-    freeAdjList_cs(numCourses); // Limpa a memória alocada para a lista de adjacência
+    freeAdjListCS(numCourses); // Limpa a memória alocada para a lista de adjacência
 
     return visited_count == numCourses;
 }
 
-
-// --- Função principal para demonstrar as soluções ---
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         printf("Uso:\n");

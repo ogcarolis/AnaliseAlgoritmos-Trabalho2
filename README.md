@@ -1,6 +1,6 @@
-# AnaliseAlgoritmos-Trabalho2
+# Trabalho 2 de Análise de Algoritmos: Pesquisa e Resolução de Problemas sobre Grafos
 
-Trabalho 2 de Análise de Algoritmos: Pesquisa e Resolução de Problemas sobre Grafos
+**Objetivo:** Explorar problemas clássicos de grafos relacionados a três tópicos fundamentais: Caminho Mínimo, Árvore Geradora Mínima e Ordenação Topológica, aplicando conhecimentos teóricos na resolução prática de problemas encontrados em sites de programação competitiva.
 
 ## Descrição
 
@@ -60,6 +60,7 @@ Para remover o executável:
 ```
 make clean
 ```
+<<<<<<< HEAD
 
 # Algoritmos Utilizados
 
@@ -76,3 +77,5 @@ Neste projeto, foram utilizados os seguintes algoritmos para resolver cada probl
 - **Course Schedule (LeetCode 207):**
   - **Algoritmo de Kahn (Ordenação Topológica em BFS)**  
     Utilizado para verificar se é possível concluir todos os cursos dados os pré-requisitos, ou seja, se o grafo direcionado é acíclico (DAG). O algoritmo faz uma ordenação topológica utilizando uma fila e o grau de entrada dos vértices.
+=======
+>>>>>>> fd0f92f6715cc8662ab98f6f982901804f8fe176
